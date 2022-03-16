@@ -1,8 +1,9 @@
 nav {
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 120px;
+  height: 100px;
   width: 100%;
   background-color: #4056A1;
   color: #FFFFFF;
@@ -29,6 +30,10 @@ nav span {
 
 .nav-text i {
   color: rgb(226, 65, 60);
+}
+
+header {
+  padding-top: 100px;
 }
 
 
