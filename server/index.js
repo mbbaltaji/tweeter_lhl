@@ -32,7 +32,7 @@ const tweetsRoutes = require("./routes/tweets")(DataHelpers);
 
 // Mount the tweets routes at the "/tweets" path prefix:
 app.use("/tweets", tweetsRoutes);
-app.use(morgan);
+// app.use(morgan);
 
 
 app.listen(PORT, () => {
