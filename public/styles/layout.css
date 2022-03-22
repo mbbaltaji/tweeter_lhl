@@ -25,7 +25,10 @@ main {
   width: 90%;
   margin: auto;
   background-color: inherit;
+  margin-top: 2.5em;
 }
+
+
 
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
