@@ -37,14 +37,15 @@ $(document).ready(function() {
   const renderTweets = function(tweets) {
     for (const tweet of tweets) {
       console.log(tweet);
-      let $tweet = createTweetElement(tweet);
+      const $tweet = createTweetElement(tweet);
       $('#tweets-container').append($tweet);
     }
   };
 
   // takes in tweet obj and returns tweet <article> element containing entire HTML structure of the tweet
   const createTweetElement = function(tweetData) {
-    let $tweet =
+    
+    const $tweet =
       `
       <article class="tweet">
         <header class="article-content">
@@ -68,6 +69,19 @@ $(document).ready(function() {
     return $tweet;
   };
   renderTweets(data);
+
+  const $form = $('#tweet-form');
+
+  $form.submit( function(e)  {
+    e.preventDefault();
+    const serializedData = $(e.target).serialize();
+    console.log(serializedData);
+
+    $.post('/tweets', serializedData, response =>{
+      console.log(response);
+    });
+    
+  });
 });
 
   
