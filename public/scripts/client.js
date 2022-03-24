@@ -4,6 +4,12 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+const escape = function (str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
 $(document).ready(function() {
   
   //Appends each tweet article to to tweet <section id="tweet-container">
@@ -28,7 +34,7 @@ $(document).ready(function() {
           </span>
           <span id="username">${tweetData.user.handle}</span>
         </header>
-        <p>${tweetData.content.text}</p>
+        <p>${escape(tweetData.content.text)}</p>
         <footer class="article-content">
         <span>${timeago.format(new Date())}</span>
           <span class="icons">
