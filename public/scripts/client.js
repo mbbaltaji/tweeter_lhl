@@ -5,7 +5,7 @@
  */
 
 $(document).ready(function() {
-
+  
   //Appends each tweet article to to tweet <section id="tweet-container">
   const renderTweets = function(tweets) {
     for (const tweet of tweets) {
@@ -30,7 +30,7 @@ $(document).ready(function() {
         </header>
         <p>${tweetData.content.text}</p>
         <footer class="article-content">
-        <span>${tweetData.created_at}</span>
+        <span>${timeago.format(new Date())}</span>
           <span class="icons">
             <i class="fa-solid fa-flag"></i>
             <i class="fa-solid fa-retweet"></i>
@@ -41,26 +41,32 @@ $(document).ready(function() {
       `;
     return $tweet;
   };
-  //renderTweets(data);
+
+  
 
   const $form = $('#tweet-form');
 
   // form submission handler (send tweets to server)
   $form.submit( function(e)  {
+    
     e.preventDefault();
+  
     // required to send data to server
     const serializedData = $(e.target).serialize();
     
-    //make post request to /tweets endpoint with serialized data
+    //make post request to /tweets endpoint with serialized data (only if tweet is valid)
+    if (validateTweet()) {
     $.post('/tweets', serializedData)
-    .then( () => {
+    .then( () => {  //then make a GET request to get all the posts in db and return a promise
       return $.get('/tweets');
     })
-    .then((tweets) => {
-      const result = tweets[tweets.length - 1];
-      renderTweets([result]);
+    .then((tweets) => { // then get the most recent tweet (last tweet) and render it 
+      const newestTweet = tweets[tweets.length - 1];
+      renderTweets([newestTweet]);
+      // trigger a reset event on the form (to clear text from text area after tweeting)
       $form.trigger('reset');
     });
+  }
   });
 
   // Loads all tweets in the db
@@ -70,7 +76,26 @@ $(document).ready(function() {
       renderTweets(tweets);
     });
   };
+  // load all tweets available in the mock db
   loadTweets();
+
+  // validates whether tweet text is empty or exceeds char limit
+  const validateTweet = function() {
+    
+    const $tweetSize = $('#tweet-text').val();
+    if ($tweetSize.length > 140) {
+      $(alert('⛔️ Exceeded the tweet limit. Please chill out! 😎'));
+      return false;
+    } else if (!$tweetSize) {
+      $(alert('⛔️ Tweet field is empty, Try typing something next time 🙄'));
+      return false;
+    }
+    return true;
+  }
+  
+
+  
+
 });
 
   
