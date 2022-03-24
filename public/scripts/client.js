@@ -4,33 +4,6 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-// Fake data taken from initial-tweets.json
-const data = [
-  {
-    "user": {
-      "name": "Newton",
-      "avatars": "https://i.imgur.com/73hZDYK.png"
-      ,
-      "handle": "@SirIsaac"
-    },
-    "content": {
-      "text": "If I have seen further it is by standing on the shoulders of giants"
-    },
-    "created_at": 1461116232227
-  },
-  {
-    "user": {
-      "name": "Descartes",
-      "avatars": "https://i.imgur.com/nlhLi3I.png",
-      "handle": "@rd" },
-    "content": {
-      "text": "Je pense , donc je suis"
-    },
-    "created_at": 1461113959088
-  }
-];
-
-
 $(document).ready(function() {
 
   //Appends each tweet article to to tweet <section id="tweet-container">
@@ -38,7 +11,7 @@ $(document).ready(function() {
     for (const tweet of tweets) {
       console.log(tweet);
       const $tweet = createTweetElement(tweet);
-      $('#tweets-container').append($tweet);
+      $('#tweets-container').prepend($tweet);
     }
   };
 
@@ -68,20 +41,36 @@ $(document).ready(function() {
       `;
     return $tweet;
   };
-  renderTweets(data);
+  //renderTweets(data);
 
   const $form = $('#tweet-form');
 
+  // form submission handler (send tweets to server)
   $form.submit( function(e)  {
     e.preventDefault();
+    // required to send data to server
     const serializedData = $(e.target).serialize();
-    console.log(serializedData);
-
-    $.post('/tweets', serializedData, response =>{
-      console.log(response);
-    });
     
+    //make post request to /tweets endpoint with serialized data
+    $.post('/tweets', serializedData)
+    .then( () => {
+      return $.get('/tweets');
+    })
+    .then((tweets) => {
+      const result = tweets[tweets.length - 1];
+      renderTweets([result]);
+      $form.trigger('reset');
+    });
   });
+
+  // Loads all tweets in the db
+  const loadTweets = function () {
+    $.get('/tweets')
+    .then( (tweets) =>{
+      renderTweets(tweets);
+    });
+  };
+  loadTweets();
 });
 
   
