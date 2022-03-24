@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     //.next gets the next sibling of an element
     // .children returns an array pf children
-    output.innerHTML = count; 
+    output.innerHTML = count;
     if (count < 0) {
       $(output).css('color', 'red');
     } else {
