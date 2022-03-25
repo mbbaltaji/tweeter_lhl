@@ -26,12 +26,12 @@ $(document).ready(function() {
     const $footer = createFooter(tweetData.created_at).addClass('article-content');
     
     const $tweet = $article.append($header, $tweetText, $footer);
-  
     return $tweet;
   };
 
   // form submission handler (send tweets to server)
   const $form = $('#tweet-form');
+
   $form.submit(function(e) {
    
     e.preventDefault();
@@ -49,13 +49,12 @@ $(document).ready(function() {
       renderTweets([newestTweet]);
       // trigger a reset event on the form (to clear text from text area after tweeting)
       $form.trigger('reset');
+      $('.counter').text(140); // reset char count (innerHTML element) after submitting tweet
     });
   }
 });
 
-
   // HELPER FUNCTIONS
-
   // Creates a header for each tweet
   const createHeader = function(avatars, name, username){
     const $header = $('<header>').addClass('article-content');
@@ -77,9 +76,9 @@ $(document).ready(function() {
     const $span = $('<span>').addClass('icons');
 
     //icons
-    const $flag = $('<i>').addClass('fa-solid fa-flag')
-    const $retweet = $('<i>').addClass('fa-solid fa-retweet')
-    const $heart = $('<i>').addClass('fa-solid fa-heart')
+    const $flag = $('<i>').addClass('fa-solid fa-flag');
+    const $retweet = $('<i>').addClass('fa-solid fa-retweet');
+    const $heart = $('<i>').addClass('fa-solid fa-heart');
 
     $span.append($flag, $retweet, $heart);
     $footer.append($timeStamp, $span);
@@ -87,20 +86,56 @@ $(document).ready(function() {
     return $footer;
   };
 
+  // Creates custom div to display errors
+  const createErrorDiv = function() {
+    const $errorDiv = $('<div>').attr('id', 'error-message');
+    const $errorIcon = $('<i id="error-icon" class="fa-solid fa-triangle-exclamation"></i>')
+    $errorDiv.append($errorIcon);
+    return $errorDiv;
+  }
+
+  // event handler to dynamically change char count as user is typing
+  $('#tweet-text').on('input', function(e){
+    let charCount = 140;
+    let count = charCount - $(this).val().length; //$(this).val stores the string val in the textarea el
+    let output = $(this).next().children()[1];
+
+    //.next gets the next sibling of an element
+    // .children returns an array pf children
+    output.innerHTML = count;
+    if (count < 0) {
+      $(output).css('color', 'red');
+    } else {
+      $(output).css('color', 'grey');
+    }
+    validateTweet(true);
+  });
+
   // validates whether tweet text is empty or exceeds char limit
-  const validateTweet = function() {
-    const $tweetSize = $('#tweet-text').val();
-    if ($tweetSize.length > 140) {
-      $(alert('⛔️ Exceeded the tweet limit. Please chill out! 😎'));
+  const validateTweet = function(autoValidate = false) {
+    
+    const $tweetText = $('#tweet-text').val().trim();
+    const $error = createErrorDiv();
+    const $div = $('.new-tweet');
+    
+    $div.children('div').slideUp(1, function() {
+      $(this).remove();
+    });
+
+    if ($tweetText.length > 140) {
+      $error.text('⚠️ Exceeded the tweet limit. Please chill out! 😎');
+      $div.prepend($error).slideDown('slow');
       return false;
-    } else if (!$tweetSize) {
-      $(alert('⛔️ Tweet field is empty, Try typing something next time 🙄'));
+    } 
+    else if (!$tweetText && !autoValidate) {
+      $error.text('⚠️ Tweet field is empty, Try typing something next time 🙄');
+      $div.prepend($error).slideDown('slow');
       return false;
     }
     return true;
   };
 
-  // Loads all tweets in the db
+  // Loads all tweets already available in the db
   const loadTweets = function() {
     $.get('/tweets')
     .then( (tweets) => {
@@ -110,6 +145,8 @@ $(document).ready(function() {
 
   loadTweets(); // load all tweets available in the mock db
 });
+
+
 
   
 
