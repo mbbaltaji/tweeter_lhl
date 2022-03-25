@@ -4,6 +4,7 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+// prevents cross site scripting
 const escape = function (str) {
   let div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
@@ -11,14 +12,16 @@ const escape = function (str) {
 };
 
 $(document).ready(function() {
-  
+
   //Appends each tweet article to to tweet <section id="tweet-container">
   const renderTweets = function(tweets) {
     for (const tweet of tweets) {
-      console.log(tweet);
       const $tweet = createTweetElement(tweet);
       $('#tweets-container').prepend($tweet);
     }
+
+    //time stamp of when tweet was posted
+    timeago.render(document.querySelectorAll('.dynamic-time'));
   };
 
   // takes in tweet obj and returns tweet <article> element containing entire HTML structure of the tweet
@@ -36,7 +39,7 @@ $(document).ready(function() {
         </header>
         <p>${escape(tweetData.content.text)}</p>
         <footer class="article-content">
-        <span>${timeago.format(new Date())}</span>
+        <span class="dynamic-time" datetime="${tweetData.created_at}"></span>
           <span class="icons">
             <i class="fa-solid fa-flag"></i>
             <i class="fa-solid fa-retweet"></i>
@@ -46,15 +49,11 @@ $(document).ready(function() {
       </article>
       `;
     return $tweet;
-  };
-
-  
+  };  
 
   const $form = $('#tweet-form');
-
   // form submission handler (send tweets to server)
   $form.submit( function(e)  {
-    
     e.preventDefault();
   
     // required to send data to server
@@ -62,6 +61,7 @@ $(document).ready(function() {
     
     //make post request to /tweets endpoint with serialized data (only if tweet is valid)
     if (validateTweet()) {
+
     $.post('/tweets', serializedData)
     .then( () => {  //then make a GET request to get all the posts in db and return a promise
       return $.get('/tweets');
@@ -73,21 +73,20 @@ $(document).ready(function() {
       $form.trigger('reset');
     });
   }
-  });
+});
 
   // Loads all tweets in the db
   const loadTweets = function () {
     $.get('/tweets')
-    .then( (tweets) =>{
+    .then( (tweets) => {
       renderTweets(tweets);
     });
   };
-  // load all tweets available in the mock db
-  loadTweets();
+
+  loadTweets(); // load all tweets available in the mock db
 
   // validates whether tweet text is empty or exceeds char limit
   const validateTweet = function() {
-    
     const $tweetSize = $('#tweet-text').val();
     if ($tweetSize.length > 140) {
       $(alert('⛔️ Exceeded the tweet limit. Please chill out! 😎'));
@@ -98,10 +97,6 @@ $(document).ready(function() {
     }
     return true;
   }
-  
-
-  
-
 });
 
   
