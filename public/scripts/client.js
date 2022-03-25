@@ -4,13 +4,6 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-// prevents cross site scripting
-const escape = function (str) {
-  let div = document.createElement("div");
-  div.appendChild(document.createTextNode(str));
-  return div.innerHTML;
-};
-
 $(document).ready(function() {
 
   //Appends each tweet article to to tweet <section id="tweet-container">
@@ -26,45 +19,30 @@ $(document).ready(function() {
 
   // takes in tweet obj and returns tweet <article> element containing entire HTML structure of the tweet
   const createTweetElement = function(tweetData) {
+    const $article = $('<article>').addClass('tweet');
+    const $tweetText = $('<p>').text(tweetData.content.text);
     
-    const $tweet =
-      `
-      <article class="tweet">
-        <header class="article-content">
-          <span id="name">
-          <img src="${tweetData.user.avatars}">
-          <span> ${tweetData.user.name}</span>
-          </span>
-          <span id="username">${tweetData.user.handle}</span>
-        </header>
-        <p>${escape(tweetData.content.text)}</p>
-        <footer class="article-content">
-        <span class="dynamic-time" datetime="${tweetData.created_at}"></span>
-          <span class="icons">
-            <i class="fa-solid fa-flag"></i>
-            <i class="fa-solid fa-retweet"></i>
-            <i class="fa-solid fa-heart"></i>
-          </span>
-        </footer>
-      </article>
-      `;
-    return $tweet;
-  };  
-
-  const $form = $('#tweet-form');
-  // form submission handler (send tweets to server)
-  $form.submit( function(e)  {
-    e.preventDefault();
+    const $header = createHeader(tweetData.user.avatars, tweetData.user.name, tweetData.user.handle);
+    const $footer = createFooter(tweetData.created_at).addClass('article-content');
+    
+    const $tweet = $article.append($header, $tweetText, $footer);
   
+    return $tweet;
+  };
+
+  // form submission handler (send tweets to server)
+  const $form = $('#tweet-form');
+  $form.submit(function(e) {
+   
+    e.preventDefault();
     // required to send data to server
     const serializedData = $(e.target).serialize();
     
     //make post request to /tweets endpoint with serialized data (only if tweet is valid)
     if (validateTweet()) {
-
-    $.post('/tweets', serializedData)
-    .then( () => {  //then make a GET request to get all the posts in db and return a promise
-      return $.get('/tweets');
+      $.post('/tweets', serializedData)
+      .then(() => {  //then make a GET request to get all the posts in db and return a promise
+        return $.get('/tweets');
     })
     .then((tweets) => { // then get the most recent tweet (last tweet) and render it 
       const newestTweet = tweets[tweets.length - 1];
@@ -75,15 +53,39 @@ $(document).ready(function() {
   }
 });
 
-  // Loads all tweets in the db
-  const loadTweets = function () {
-    $.get('/tweets')
-    .then( (tweets) => {
-      renderTweets(tweets);
-    });
-  };
 
-  loadTweets(); // load all tweets available in the mock db
+  // HELPER FUNCTIONS
+
+  // Creates a header for each tweet
+  const createHeader = function(avatars, name, username){
+    const $header = $('<header>').addClass('article-content');
+    const $avatar = $('<img>').attr('src', avatars);
+    const $name = $('<span>').text(name);
+    const $span = $('<span>').attr('id', 'name');
+    const $username = $('<span>').attr('id', 'username').text(username);
+
+    $span.append($avatar, $name);
+    $header.append($span, $username);
+
+    return $header;
+  }
+
+  // creates a footer for each tweet
+  const createFooter = function(created_at){
+    const $footer = $('<footer>').addClass('article-content');
+    const $timeStamp = $('<span>').addClass('dynamic-time').attr('datetime', created_at);
+    const $span = $('<span>').addClass('icons');
+
+    //icons
+    const $flag = $('<i>').addClass('fa-solid fa-flag')
+    const $retweet = $('<i>').addClass('fa-solid fa-retweet')
+    const $heart = $('<i>').addClass('fa-solid fa-heart')
+
+    $span.append($flag, $retweet, $heart);
+    $footer.append($timeStamp, $span);
+
+    return $footer;
+  };
 
   // validates whether tweet text is empty or exceeds char limit
   const validateTweet = function() {
@@ -96,7 +98,17 @@ $(document).ready(function() {
       return false;
     }
     return true;
-  }
+  };
+
+  // Loads all tweets in the db
+  const loadTweets = function() {
+    $.get('/tweets')
+    .then( (tweets) => {
+      renderTweets(tweets);
+    });
+  };
+
+  loadTweets(); // load all tweets available in the mock db
 });
 
   
