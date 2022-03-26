@@ -17,9 +17,9 @@
   color: black;
 }
 
- label{
-   color: rgb(73, 73, 73);
-   font-weight:normal;
+label{
+  color: rgb(73, 73, 73);
+  font-weight:700;
  }
  form {
    display: flex;
