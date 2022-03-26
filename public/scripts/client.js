@@ -94,6 +94,16 @@ $(document).ready(function() {
     return $errorDiv;
   }
 
+  //STRETCH
+  // Slides tweet composer in and out of view using the arrow down button (top right)
+  $('#arrow-down-btn').on('click', function(){
+    $('.new-tweet').slideUp('slow');
+    if ($('.new-tweet').is(':hidden')) {
+      $('.new-tweet').slideDown('slow');
+      $('#tweet-text').focus();
+    }
+  })
+
   // event handler to dynamically change char count as user is typing
   $('#tweet-text').on('input', function(e){
     let charCount = 140;
