@@ -9,7 +9,25 @@ nav {
   color: #FFFFFF;
   padding: 0 1.5em;
   z-index: 999;
+  background: rgba(255, 255, 255, 0);
 }
+#arrow-down-btn{
+  background-color: transparent;
+  padding: unset;
+}
+
+
+#arrow-down-btn:hover {
+position: absolute;
+animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  from {top: 60px;}
+  to {top: 75px;}
+}
+
+
 
 nav span {
   font-family: 'Bungee', sans-serif;
@@ -30,6 +48,7 @@ nav span {
 
 .nav-text i {
   color: rgb(226, 65, 60);
+
 }
 
 
