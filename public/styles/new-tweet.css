@@ -1,8 +1,9 @@
- #new-tweet{
-   margin-top: 3em;
- }
+#new-tweet {
+  margin-top: 3em;
+}
 
-#error-message {
+ /* Displays above tweet textarea */
+ #error-message {
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -21,24 +22,24 @@ label{
   color: rgb(73, 73, 73);
   font-weight:700;
  }
- form {
-   display: flex;
-   flex-direction: column;
-   font-weight: bold;
+
+form {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
  }
 
- textarea {
-   border: none;
-   background-color: inherit;
-   color: inherit;
-   border-bottom: 4px solid rgb(73, 73, 73);
-   padding-bottom: .5em;
-   outline: none;
-   resize: none;
-   font-size: 18px;
-   font-weight:700;
-
- }
+textarea {
+  border: none;
+  background-color: inherit;
+  color: inherit;
+  border-bottom: 4px solid rgb(73, 73, 73);
+  padding-bottom: .5em;
+  outline: none;
+  resize: none;
+  font-size: 18px;
+  font-weight:700;
+}
 
 #tweet-btn { 
   color: rgb(73, 73, 73);
@@ -53,6 +54,14 @@ button {
   color: #FFFFFF;
   border: none;
   padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: ease-out 0.3s;
+  box-shadow: inset orange;
+}
+
+button:hover {
+  box-shadow: inset 103px 0 0 red;
 }
 
 
