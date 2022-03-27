@@ -49,7 +49,7 @@ textarea {
   font-family: 'Bungee', sans-serif;
 }
 
-button {
+#compose-tweet-btn {
   background-color: #4056A1;
   color: #FFFFFF;
   border: none;
@@ -59,7 +59,7 @@ button {
   transition: ease-out 0.3s;
 }
 
-button:hover {
+#compose-tweet-btn:hover {
   box-shadow: inset 103px 0 0 red;
 }
 
