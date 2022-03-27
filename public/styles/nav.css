@@ -11,23 +11,24 @@ nav {
   z-index: 999;
   background: rgba(255, 255, 255, 0);
 }
+
+
 #arrow-down-btn{
   background-color: transparent;
   padding: unset;
+  border: none;
 }
-
 
 #arrow-down-btn:hover {
 position: absolute;
 animation: bounce 2s infinite;
 }
 
+/* Bounce animation on hover */
 @keyframes bounce {
   from {top: 60px;}
   to {top: 75px;}
 }
-
-
 
 nav span {
   font-family: 'Bungee', sans-serif;
