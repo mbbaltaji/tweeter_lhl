@@ -33,7 +33,7 @@
     <!-- Top nav bar (fixed) -->
     <div class="header-container"> 
       <nav>
-        <span>tweeter</span>
+        <span id="logo">tweeter</span>
         <div class="nav-text">
           <span id="down-arrow-text"><b>Write</b> a new tweet</span>
           <button id="arrow-down-btn"><i class="fa-solid fa-angles-down"></i></button>
@@ -53,34 +53,16 @@
           <label for="tweet-text">What are you humming about?</label>
           <textarea name="text" id="tweet-text"></textarea>
           <div id="tweet-btn">
-            <button type="submit">Tweet</button>
+            <button id="compose-tweet-btn" type="submit">Tweet</button>
             <output name="counter" class="counter" for="tweet-text">140</output>
           </div>
         </form>
       </section>
       <section id="tweets-container">
-        <!-- <article class="tweet">
-          <header class="article-content">
-            <span>
-              <i id="icon" class="fa-solid fa-face-grin-beam"></i> 
-              <span>Moose</span>
-            </span>
-            <span id="username">@username</span>
-          </header>
-          <p> If I have seen further it is by standing on the shoulders of giants</p>
-          <footer class="article-content">
-            <span>10 days ago</span>
-            <span class="icons">
-              <i class="fa-solid fa-flag"></i>
-              <i class="fa-solid fa-retweet"></i>
-              <i class="fa-solid fa-heart"></i>
-            </span>
-          </footer>
-        </article> -->
       </section>
-      <p>
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <div id="back-to-top">
+      <button id="back-to-top-btn"><i class="fa-solid fa-angles-up"></i></button>
+      </div>
     </main>
   </body>
 </html>
