@@ -15,6 +15,7 @@ html {
  */
 
 body {
+  margin-bottom: 1em;
   color: #545149;
   background-color: #f4f1ec;
   font-size: 24px;
@@ -27,6 +28,33 @@ main {
   background-color: inherit;
   margin-top: 2.5em;
 }
+
+/* to fix button at bottom of viewport */
+#back-to-top{
+  position:fixed;
+  bottom: 2%; 
+  right: 1%;
+  display: none;
+}
+
+#back-to-top-btn{
+  border-radius: 50%;
+  background-color: red;
+  height: 70px;
+  width: 70px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+#back-to-top-btn i{
+  font-weight: bold;
+  color: white;
+}
+
+
+
+
 
 
 
