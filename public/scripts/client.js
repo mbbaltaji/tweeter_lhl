@@ -4,6 +4,8 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+
+
 $(document).ready(function() {
 
   //Appends each tweet article to to tweet <section id="tweet-container">
@@ -31,10 +33,9 @@ $(document).ready(function() {
 
   // form submission handler (send tweets to server)
   const $form = $('#tweet-form');
-
   $form.submit(function(e) {
-   
     e.preventDefault();
+
     // required to send data to server
     const serializedData = $(e.target).serialize();
     
@@ -54,7 +55,8 @@ $(document).ready(function() {
   }
 });
 
-  // HELPER FUNCTIONS
+  /** HELPER FUNCTIONS **/
+
   // Creates a header for each tweet
   const createHeader = function(avatars, name, username){
     const $header = $('<header>').addClass('article-content');
@@ -92,7 +94,58 @@ $(document).ready(function() {
     const $errorIcon = $('<i id="error-icon" class="fa-solid fa-triangle-exclamation"></i>')
     $errorDiv.append($errorIcon);
     return $errorDiv;
-  }
+  };
+
+    // event handler to dynamically change char count as user is typing
+    $('#tweet-text').on('input', function(e){
+      let charCount = 140;
+      let count = charCount - $(this).val().length; //$(this).val stores the string val in the textarea el
+      let output = $(this).next().children()[1];
+  
+      //.next gets the next sibling of an element
+      // .children returns an array pf children
+      output.innerHTML = count;
+      if (count < 0) {
+        $(output).css('color', 'red');
+      } else {
+        $(output).css('color', 'grey');
+      }
+      validateTweet(true);
+    });
+  
+    // validates whether tweet text is empty or exceeds char limit
+    const validateTweet = function(autoValidate = false) {
+      
+      const $tweetText = $('#tweet-text').val().trim();
+      const $error = createErrorDiv();
+      const $div = $('.new-tweet');
+      
+      $div.children('div').slideUp(1, function() {
+        $(this).remove();
+      });
+  
+      if ($tweetText.length > 140) {
+        $error.text('⚠️ Exceeded the tweet limit. Please chill out! 😎');
+        $div.prepend($error).slideDown('slow');
+        return false;
+      } 
+      else if (!$tweetText && !autoValidate) {
+        $error.text('⚠️ Tweet field is empty, Try typing something next time 🙄');
+        $div.prepend($error).slideDown('slow');
+        return false;
+      }
+      return true;
+    };
+  
+    // Loads all tweets already available in the db
+    const loadTweets = function() {
+      $.get('/tweets')
+      .then( (tweets) => {
+        renderTweets(tweets);
+      });
+    };
+  
+    loadTweets(); // load all tweets available in the mock db
 
   //STRETCH
   // Slides tweet composer in and out of view using the arrow down button (top right)
@@ -102,65 +155,31 @@ $(document).ready(function() {
       $('.new-tweet').slideDown('slow');
       $('#tweet-text').focus();
     }
-  })
-
-  // event handler to dynamically change char count as user is typing
-  $('#tweet-text').on('input', function(e){
-    let charCount = 140;
-    let count = charCount - $(this).val().length; //$(this).val stores the string val in the textarea el
-    let output = $(this).next().children()[1];
-
-    //.next gets the next sibling of an element
-    // .children returns an array pf children
-    output.innerHTML = count;
-    if (count < 0) {
-      $(output).css('color', 'red');
-    } else {
-      $(output).css('color', 'grey');
-    }
-    validateTweet(true);
   });
 
-  // validates whether tweet text is empty or exceeds char limit
-  const validateTweet = function(autoValidate = false) {
-    
-    const $tweetText = $('#tweet-text').val().trim();
-    const $error = createErrorDiv();
-    const $div = $('.new-tweet');
-    
-    $div.children('div').slideUp(1, function() {
-      $(this).remove();
-    });
+  // Shows back to top button when user scrolls down the page
+ $(window).scroll((e) => {
+    //e.preventDefault();
+   const scrollTop = $(this).scrollTop();
+   console.log(scrollTop);
+   if (scrollTop >= 475) {
+     $('nav').hide();
+     $('#back-to-top').show();
+   }else {
+     $('nav').show();
+     $('#back-to-top').hide();
+   }
+ });
 
-    if ($tweetText.length > 140) {
-      $error.text('⚠️ Exceeded the tweet limit. Please chill out! 😎');
-      $div.prepend($error).slideDown('slow');
-      return false;
-    } 
-    else if (!$tweetText && !autoValidate) {
-      $error.text('⚠️ Tweet field is empty, Try typing something next time 🙄');
-      $div.prepend($error).slideDown('slow');
-      return false;
-    }
-    return true;
-  };
+ // navigates to top of the viewport and slides down new tweet textarea
+ $('#back-to-top-btn').on('click', function (e){
+   e.preventDefault();
+   $(window).scrollTop(0);
+   $('#tweet-text').focus();
 
-  // Loads all tweets already available in the db
-  const loadTweets = function() {
-    $.get('/tweets')
-    .then( (tweets) => {
-      renderTweets(tweets);
-    });
-  };
-
-  loadTweets(); // load all tweets available in the mock db
+   if ($('.new-tweet').is(':hidden')) {
+    $('.new-tweet').slideDown('slow');
+    $('#tweet-text').focus();
+  }
+ });
 });
-
-
-
-  
-
-
-
-
-
