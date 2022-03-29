@@ -35,7 +35,7 @@ $(document).ready(function() {
     const $tweet = $article.append($header, $tweetText, $footer);
     return $tweet;
   };
-git   
+    
   const $form = $('#tweet-form'); 
   // form submission handler (send tweets to server)
   $form.submit(function(e) {
