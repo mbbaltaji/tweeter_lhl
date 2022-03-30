@@ -27,7 +27,7 @@ This repository is the starter code for the project: Students will fork and clon
 
 !["main header"](/public/images/header.png)
 !["tweets"](/public/images/body.png)
-!["dynamic errors"](/public/images/errors.png)
+!["dynamic errors"](/public/images/error.png)
 !["responsiveness"](/public/images/responsive.png)
 
 
