@@ -60,7 +60,7 @@ textarea {
 }
 
 #compose-tweet-btn:hover {
-  box-shadow: inset 103px 0 0 red;
+  box-shadow: inset 103px 0 0 #ffa70f;
 }
 
 

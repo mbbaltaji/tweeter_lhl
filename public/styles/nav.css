@@ -5,7 +5,7 @@ nav {
   align-items: center;
   height: 100px;
   width: 100%;
-  background-color: #4056A1;
+  /* background-color: #4056A1; */
   color: #FFFFFF;
   padding: 0 1.5em;
   z-index: 999;
@@ -25,7 +25,7 @@ nav span {
   padding: unset;
   border: none;
   position: absolute;
-  animation: bounce 2s infinite;  
+  animation: bounce 1.5s infinite;  
 }
 
 /* Bounce animation on hover */
@@ -51,6 +51,32 @@ nav span {
   color: rgb(226, 65, 60);
   cursor: pointer;
 }
+
+@media screen and (min-width: 1024px) {
+  
+  nav {
+    background-color: #4056A1;
+    position: relative;
+  }
+
+  main {
+    margin-top: 0em;
+    margin-right: 2em;
+  }
+
+  .header-main-container .main-header{
+    height: 33%;
+    width: 60vw;
+  }
+
+  .header-main-container{
+    margin-left: 2em;
+    margin-top: 4em;
+    display: flex;
+    column-gap: 100px;
+    justify-content: space-around;
+  }  
+} 
 
 
 

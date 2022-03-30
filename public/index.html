@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+
     <!-- Meta Information -->
     <title>Tweeter - Home Page</title>
 
@@ -39,30 +41,29 @@
           <button id="arrow-down-btn"><i class="fa-solid fa-angles-down"></i></button>
         </div>
       </nav>
+    </div>
+    <div class="header-main-container">
       <header class="main-header">
           <img src="/images/profile-hex.png"> 
         <br>
           <h2 id="username-text"><b>Mustapha</b> Baltaji</h2>
       </header>
+      <main>
+        <section class="new-tweet">
+          <form id="tweet-form">
+            <label for="tweet-text">What are you humming about?</label>
+            <textarea name="text" id="tweet-text"></textarea>
+            <div id="tweet-btn">
+              <button id="compose-tweet-btn" type="submit">Tweet</button>
+              <output name="counter" class="counter" for="tweet-text">140</output>
+            </div>
+          </form>
+        </section>
+        <section id="tweets-container"></section>
+        <div id="back-to-top">
+          <button id="back-to-top-btn"><i class="fa-solid fa-angles-up"></i></button>
+        </div>
+      </main>
     </div>
-
-    <!-- Page-specific (main) content here -->
-    <main>
-      <section class="new-tweet">
-        <form id="tweet-form">
-          <label for="tweet-text">What are you humming about?</label>
-          <textarea name="text" id="tweet-text"></textarea>
-          <div id="tweet-btn">
-            <button id="compose-tweet-btn" type="submit">Tweet</button>
-            <output name="counter" class="counter" for="tweet-text">140</output>
-          </div>
-        </form>
-      </section>
-      <section id="tweets-container">
-      </section>
-      <div id="back-to-top">
-      <button id="back-to-top-btn"><i class="fa-solid fa-angles-up"></i></button>
-      </div>
-    </main>
   </body>
 </html>
