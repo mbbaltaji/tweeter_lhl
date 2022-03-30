@@ -16,3 +16,18 @@ This repository is the starter code for the project: Students will fork and clon
 
 - Express
 - Node 5.10.x or above
+- chance 
+- bodyparser
+- md5
+- morgan
+
+
+## Final Product
+
+
+!["main header"](/public/images/header.png)
+!["tweets"](/public/images/body.png)
+!["dynamic errors"](/public/images/errors.png)
+!["responsiveness"](/public/images/responsive.png)
+
+
